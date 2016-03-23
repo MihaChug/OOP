@@ -1,0 +1,6 @@
+﻿  vectortest.cpp
+  VectorProcessorTest.cpp
+  stdafx.cpp
+  Создание кода...
+VectorProcessorTest.obj : error LNK2019: ссылка на неразрешенный внешний символ "void __cdecl MaxMultMinDiv(class std::vector<double,class std::allocator<double> > &)" (?MaxMultMinDiv@@YAXAAV?$vector@NV?$allocator@N@std@@@std@@@Z) в функции "public: void __thiscall MaxMultMinDiv_function::does_not_change::test_method(void)" (?test_method@does_not_change@MaxMultMinDiv_function@@QAEXXZ)
+C:\Users\Michael\Documents\Visual Studio 2015\Projects\ООП\Lab2\Vector\Debug\vector_tests.exe : fatal error LNK1120: неразрешенных внешних элементов: 1
