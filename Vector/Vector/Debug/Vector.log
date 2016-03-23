@@ -1,6 +1,0 @@
-﻿  vectorProcessor.cpp
-c:\users\michael\documents\visual studio 2015\projects\ооп\lab2\vector\vector\vectorprocessor.cpp(8): warning C4018: <: несоответствие типов со знаком и без знака
-  main.cpp
-  Создание кода...
-  Vector.vcxproj -> C:\Users\Michael\Documents\Visual Studio 2015\Projects\ООП\Lab2\Vector\Debug\Vector.exe
-  Vector.vcxproj -> C:\Users\Michael\Documents\Visual Studio 2015\Projects\ООП\Lab2\Vector\Debug\Vector.pdb (Partial PDB)
