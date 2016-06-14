@@ -72,8 +72,8 @@ bool COperationsWithShapes::HandleCommand()
 		cout << "Line: Begin X, Begin Y, End X, End Y, Border Color" << endl;
 		cout << "Circle: X, Y, Radius, Border Color, Color" << endl;
 		cout << "Triangle: X1, Y1, X2, Y2, X3, Y3, Border Color, Color" << endl;
-		cout << "Rectangle: X, Y, Width, Height, Border Color, Color" << endl << endl;
-		cout << "Example: point 1 1 black" << endl;
+		cout << "Rectangle: X, Y, Width, Height, Border Color, Color" << endl;
+		cout << "Example: rectangle 20 30 17 25 #ff0000 #00ff00" << endl << endl;                     
 
 	}
 	else
