@@ -11,18 +11,15 @@
 #include <tchar.h>
 
 
-
-///**************************
-#define BOOST_TEST_MODULE GeometricShapesTestsModule
 #define BOOST_TEST_INCLUDED
 #pragma warning (disable:4702)
 #include <boost/test/unit_test.hpp>
-///*************************
+#include <boost/algorithm/string/replace.hpp>
+
 
 
 // TODO: Установите здесь ссылки на дополнительные заголовки, требующиеся для программы
 
 #include <iostream>
-#include <boost/optional.hpp>
 #include <string>
 #include <vector>

@@ -175,6 +175,7 @@
     <ClCompile Include="..\GeometricShapes\Rectangle.cpp" />
     <ClCompile Include="..\GeometricShapes\Triangle.cpp" />
     <ClCompile Include="GeometricShapesTests.cpp" />
+    <ClCompile Include="main.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

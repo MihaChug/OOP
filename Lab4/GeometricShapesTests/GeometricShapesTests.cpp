@@ -7,6 +7,7 @@
 #include "..\GeometricShapes\Rectangle.h"
 
 
+BOOST_AUTO_TEST_SUITE(GeometricShapes)
 BOOST_AUTO_TEST_SUITE(Point)
 	BOOST_AUTO_TEST_CASE(can_be_generated)
 	{
@@ -106,4 +107,5 @@ BOOST_AUTO_TEST_SUITE(Triangle)
 		CTriangle triangle(0, 0, 0, 3, 4, 0, "#00ff00", "#00ff00");
 		BOOST_CHECK_EQUAL(triangle.ToString(), "Triangle <<0,0><0,3><4,0>>, P=12, S=6");
 	}
+BOOST_AUTO_TEST_SUITE_END()
 BOOST_AUTO_TEST_SUITE_END()
