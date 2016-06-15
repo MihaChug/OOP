@@ -20,9 +20,9 @@ class CMyList
 	class CListIterator : public std::iterator <std::random_access_iterator_tag, U>
 	{
 	public:
-		CListIterator(SNode* value, bool isReverse):
-			m_node(value),
-			m_isReverse(isReverse)
+		CListIterator(SNode* value, bool isReverse)
+			: m_node(value)
+			, m_isReverse(isReverse)
 		{
 		}
 
