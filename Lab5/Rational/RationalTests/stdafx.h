@@ -1,6 +1,6 @@
-// stdafx.h: включаемый файл для стандартных системных включаемых файлов
-// или включаемых файлов для конкретного проекта, которые часто используются, но
-// не часто изменяются
+п»ї// stdafx.h : include file for standard system include files,
+// or project specific include files that are used frequently, but
+// are changed infrequently
 //
 
 #pragma once
@@ -13,5 +13,3 @@
 #define BOOST_TEST_INCLUDED
 #pragma warning (disable: 4702)
 #include <boost/test/unit_test.hpp>
-
-// TODO: Установите здесь ссылки на дополнительные заголовки, требующиеся для программы

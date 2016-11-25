@@ -1,4 +1,7 @@
-﻿#include "stdafx.h"
+﻿// task1tests.cpp : Defines the entry point for the console application.
+//
+
+#include "stdafx.h"
 #include "../Rational/Rational.h"
 
 BOOST_AUTO_TEST_CASE(Test_Greates_Common_Denominator)
@@ -12,12 +15,14 @@ BOOST_AUTO_TEST_CASE(Test_Greates_Common_Denominator)
 	BOOST_CHECK_EQUAL(GCD(0, 0), 1u);
 }
 
+
+
 /*
-Рациональное число:
-равно нулю по умолчанию (0/1)
-может быть созданно из целого в формате (n / 1)
-может быть задано с указанием числителя и знаменателя
-хранится в нормализованном виде
+  Рациональное число:
+	равно нулю по умолчанию (0/1)
+	может быть созданно из целого в формате (n / 1)
+	может быть задано с указанием числителя и знаменателя
+	хранится в нормализованном виде
 */
 
 void VerifyRational(const CRational & r, int expectedNumerator, int expectedDenominator)
@@ -26,297 +31,538 @@ void VerifyRational(const CRational & r, int expectedNumerator, int expectedDeno
 	BOOST_CHECK_EQUAL(r.GetDenominator(), expectedDenominator);
 }
 
-void VerifyRational(const std::pair<int, CRational> const& rational, int expectedIntegerPart, int expectedNumerator, int expectedDenominator)
+void VerifyCompoundFraction(const CRational &r, int expectedInteger, int expectedNumerator, int expectedDeniminator)
 {
-	BOOST_CHECK_EQUAL(rational.first, expectedIntegerPart);
-	BOOST_CHECK_EQUAL((rational.second).GetNumerator(), expectedNumerator);
-	BOOST_CHECK_EQUAL((rational.second).GetDenominator(), expectedDenominator);
+	BOOST_CHECK_EQUAL(r.ToCompoundFraction().first, expectedInteger);
+	BOOST_CHECK_EQUAL(r.ToCompoundFraction().second.GetNumerator(), expectedNumerator);
+	BOOST_CHECK_EQUAL(r.ToCompoundFraction().second.GetDenominator(), expectedDeniminator);
 }
 
 BOOST_AUTO_TEST_SUITE(Rational_number)
-BOOST_AUTO_TEST_CASE(is_0_by_default)
-{
-	VerifyRational(CRational(), 0, 1);
-}
-BOOST_AUTO_TEST_CASE(can_be_constructed_from_integer)
-{
-	VerifyRational(CRational(10), 10, 1);
-	VerifyRational(CRational(-10), -10, 1);
-	VerifyRational(CRational(0), 0, 1);
-}
-BOOST_AUTO_TEST_CASE(can_be_constructed_with_numerator_and_denominator)
-{
-	VerifyRational(CRational(5, 2), 5, 2);
-	VerifyRational(CRational(-5, 2), -5, 2);
-	VerifyRational(CRational(5, -2), -5, 2);
-	VerifyRational(CRational(-5, -2), 5, 2);
-}
-BOOST_AUTO_TEST_CASE(is_normalized_after_construction)
-{
-	VerifyRational(CRational(6, 8), 3, 4);
-	VerifyRational(CRational(6, -8), -3, 4);
-	VerifyRational(CRational(-6, 8), -3, 4);
-	VerifyRational(CRational(-6, -8), 3, 4);
-	VerifyRational(CRational(-10, 20), -1, 2);
-}
-BOOST_AUTO_TEST_CASE(cant_have_zero_denominator)
-{
-	BOOST_REQUIRE_THROW(CRational(1, 0), std::invalid_argument);
-}
-// Возвращает представление рационального числа в виде смешанной дроби
-BOOST_AUTO_TEST_CASE(can_be_returned_in_the_form_of_a_mixed_fraction)
-{
-	VerifyRational(CRational(15, 2).ToCompoundFraction(), 7, 1, 2);
-	VerifyRational(CRational(-9, 4).ToCompoundFraction(), -2, 1, 4);
-	VerifyRational(CRational(1, 2).ToCompoundFraction(), 0, 1, 2);
-}
-
-//////////////////////////////////////////////////////////////////////////
-// TODO: 1. Реализовать метод ToDouble() согласно заданию
-// Возвращает отношение числителя и знаменателя в виде числа double
-//////////////////////////////////////////////////////////////////////////
-
-BOOST_AUTO_TEST_CASE(can_return_the_ratio_of_the_numerator_and_denominator)
-{
-	BOOST_CHECK_EQUAL(CRational(3, 5).ToDouble(), 0.6);
-	BOOST_CHECK_EQUAL(CRational(-2, 10).ToDouble(), -0.2);
-	BOOST_CHECK_EQUAL(CRational(0, 10).ToDouble(), 0);
-}
-
-//////////////////////////////////////////////////////////////////////////
-// TODO: 2. Реализовать унарный + и унарный -
-// Указание: см. материалы к лекции
-// Пример использования:
-//	const CRational r1(3, 5);
-//	CRational r2 = -r1; // r2 должно стать -3/5
-//	assert(r2.GetNumerator(), -3);
-//	assert(r2.GetDenominator(), 5);
-//	CRational r3 = +r2; // r3 также равно -3/5
-//	assert(r3.GetNumerator(), -3);
-//	assert(r3.GetDenominator(), 5);
-// Унарный минус возвращает раицональное число без знака
-// Унарный плюс возвращает рациональное число, равное текущему
-// Реализация не должна допускать операции вроде:
-//  -someRational = someOtherRational;
-//	+someRational = someOtherRational;
-//////////////////////////////////////////////////////////////////////////
-struct unaryOperationFixture
-{
-	CRational rational1;
-	unaryOperationFixture()
-		: rational1(3, 5)
-	{}
-};
-
-BOOST_FIXTURE_TEST_SUITE(unary_operation, unaryOperationFixture)
-BOOST_AUTO_TEST_CASE(unary_plus)
-{
-	auto r2 = +rational1;
-	BOOST_CHECK_EQUAL(r2.GetNumerator(), 3);
-	BOOST_CHECK_EQUAL(r2.GetDenominator(), 5);
-}
-BOOST_AUTO_TEST_CASE(unary_minus)
-{
-	auto r3 = -rational1;
-	BOOST_CHECK_EQUAL(r3.GetNumerator(), -3);
-	BOOST_CHECK_EQUAL(r3.GetDenominator(), 5);
-}
-BOOST_AUTO_TEST_CASE(unary_plus_with_unary_minus)
-{
-	auto r2 = -rational1;
-	auto r3 = +r2;
-	BOOST_CHECK_EQUAL(r3.GetNumerator(), -3);
-	BOOST_CHECK_EQUAL(r3.GetDenominator(), 5);
-}
-BOOST_AUTO_TEST_CASE(unary_minus_with_unary_minus)
-{
-	auto r2 = -rational1;
-	auto r3 = -r2;
-	BOOST_CHECK_EQUAL(r3.GetNumerator(), 3);
-	BOOST_CHECK_EQUAL(r3.GetDenominator(), 5);
-}
-BOOST_AUTO_TEST_SUITE_END()
+	BOOST_AUTO_TEST_CASE(is_0_by_default)
+	{
+		VerifyRational(CRational(), 0, 1);
+	}
+	BOOST_AUTO_TEST_CASE(can_be_constructed_from_integer)
+	{
+		VerifyRational(CRational(10), 10, 1);
+		VerifyRational(CRational(-10), -10, 1);
+		VerifyRational(CRational(0), 0, 1);
+	}
+	BOOST_AUTO_TEST_CASE(can_be_constructed_with_numerator_and_denominator)
+	{
+		VerifyRational(CRational(5, 2), 5, 2);
+		VerifyRational(CRational(-5, 2), -5, 2);
+		VerifyRational(CRational(5, -2), -5, 2);
+		VerifyRational(CRational(-5, -2), 5, 2);
+	}
+	BOOST_AUTO_TEST_CASE(is_normalized_after_construction)
+	{
+		VerifyRational(CRational(6, 8), 3, 4);
+		VerifyRational(CRational(6, -8), -3, 4);
+		VerifyRational(CRational(-6, 8), -3, 4);
+		VerifyRational(CRational(-6, -8), 3, 4);
+		VerifyRational(CRational(-10, 20), -1, 2);
+	}
+	BOOST_AUTO_TEST_CASE(cant_have_zero_denominator)
+	{
+		BOOST_REQUIRE_THROW(CRational(1, 0), std::invalid_argument);
+	}
 
 
+	// 1) unary -
+	BOOST_AUTO_TEST_CASE(unary_minus_returns_rational_integer_with_opposite_sign)
+	{
+		VerifyRational(-CRational(2, 3), -2, 3);
+		VerifyRational(-CRational(-2, 3), 2, 3);
+		VerifyRational(-CRational(-2, -3), -2, 3);
+	}
 
-// TODO: 3. Реализовать бинарный +
-BOOST_AUTO_TEST_CASE(can_be_realize_the_binary_summ)
-{
-	VerifyRational(CRational(1, 2) + CRational(1, 6), 2, 3);
-	VerifyRational(CRational(1, 2) + CRational(1), 3, 2);
-	VerifyRational(CRational(1) + CRational(1, 2), 3, 2);
-}
-// TODO: 4. Реализовать бинарный -
-BOOST_AUTO_TEST_CASE(can_be_realize_the_binary_minus)
-{
-	VerifyRational(CRational(1, 2) - CRational(1, 6), 1, 3);
-	VerifyRational(CRational(1, 2) - CRational(1), -1, 2);
-	VerifyRational(CRational(1) - CRational(1, 2), 1, 2);
-}
-////////////////////////////////////////////////////////
-struct binaryOperationFixture
-{
-	CRational rational;
-	binaryOperationFixture()
-		: rational(1, 2)
-	{}
-};
-BOOST_FIXTURE_TEST_SUITE(binary_operation, binaryOperationFixture)
-// TODO: 5. Реализовать оператор +=
-BOOST_AUTO_TEST_CASE(can_be_changed_after_summ_with_the_other_rational)
-{
-	rational += CRational(1, 6);
-	VerifyRational(rational, 2, 3);
-}
-BOOST_AUTO_TEST_CASE(can_be_changed_after_summ_with_int)
-{
-	rational += CRational(1);
-	VerifyRational(rational, 3, 2);
-}
-// TODO: 6. Реализовать оператор -=
-BOOST_AUTO_TEST_CASE(can_be_changed_after_minus_with_the_other_rational)
-{
-	rational -= CRational(1, 6);
-	VerifyRational(rational, 1, 3);
-}
-BOOST_AUTO_TEST_CASE(can_be_changed_after_minus_with_int)
-{
-	rational -= CRational(1);
-	VerifyRational(rational, -1, 2);
-}
-BOOST_AUTO_TEST_SUITE_END()
-// TODO: 7. Реализовать оператор *
-BOOST_AUTO_TEST_CASE(could_be_multiplied_by_another_rational_or_integer_number)
-{
-	VerifyRational(CRational(1, 2) * CRational(2, 3), 1, 3);
-	VerifyRational(CRational(1, 2) * CRational(-3), -3, 2);
-	VerifyRational(CRational(7) * CRational(2, 3), 14, 3);
-}
-// TODO: 8. Реализовать оператор /
-BOOST_AUTO_TEST_CASE(could_be_dividen_into_another_rational_or_integer_number)
-{
-	VerifyRational(CRational(1, 2) / CRational(2, 3), 3, 4);
-	VerifyRational(CRational(1, 2) / CRational(5), 1, 10);
-	VerifyRational(CRational(7) / CRational(2, 3), 21, 2);
-}
-//////////////////////////////////////////////////////////////////////////
-// TODO: 9. Реализовать оператор *=
-// Умножает значение первого рационального числа на другое рациональное, 
-//	либо целое:
-//	(1/2) *= (2/3) → (1/3)
-//	(1/2) *= 3     → (3/2)
-//////////////////////////////////////////////////////////////////////////
-BOOST_FIXTURE_TEST_SUITE(multiplied_operation, binaryOperationFixture)
-BOOST_AUTO_TEST_CASE(with_another_rational)
-{
-	rational *= CRational(2, 3);
-	VerifyRational(rational, 1, 3);
-}
-BOOST_AUTO_TEST_CASE(with_integer)
-{
-	rational *= CRational(3);
-	VerifyRational(rational, 3, 2);
-}
-BOOST_AUTO_TEST_SUITE_END()
+	// 1) unary +
+	BOOST_AUTO_TEST_CASE(unary_plus_returns_rational_integer_equal_to_current)
+	{
+		VerifyRational(+CRational(2, 3), 2, 3);
+		VerifyRational(+CRational(-2, 3), -2, 3);
+		VerifyRational(+CRational(2, -3), -2, 3);
+	}
 
 
+	// 2) binary +
+	struct binary_addition_
+	{
+		CRational rational = CRational(1, 2);
+	};
+	
+	BOOST_FIXTURE_TEST_SUITE(binary_addition, binary_addition_)
+		
+		BOOST_AUTO_TEST_CASE(addition_of_two_floating_point_integers)
+		{
+			auto answer = rational + CRational(5, 6);
+			VerifyRational(answer, 4, 3);
+		}
+	
+		BOOST_AUTO_TEST_CASE(addition_of_fractional_and_integer)
+		{
+			auto answer = rational + 1;
+			VerifyRational(answer, 3, 2);
+		}
+	
+		BOOST_AUTO_TEST_CASE(addition_of_rational_and_fractional_integerss)
+		{
+			auto answer = 1 + rational;
+			VerifyRational(answer, 3, 2);
+		}
+		
+	BOOST_AUTO_TEST_SUITE_END()
+	//
 
-//////////////////////////////////////////////////////////////////////////
-// TODO: 10. Реализовать оператор /=
-//////////////////////////////////////////////////////////////////////////
-BOOST_FIXTURE_TEST_SUITE(divided_operation, binaryOperationFixture)
-BOOST_AUTO_TEST_CASE(into_another_rational)
-{
-	rational /= CRational(2, 3);
-	VerifyRational(rational, 3, 4);
-}
-BOOST_AUTO_TEST_CASE(into_integer)
-{
-	rational /= CRational(3);
-	VerifyRational(rational, 1, 6);
-}
-BOOST_AUTO_TEST_SUITE_END()
+	// 3) Binary -
+	struct binary_subtraction_
+	{
+		CRational rational = CRational(1, 2);
+	};
 
-//////////////////////////////////////////////////////////////////////////
-// TODO: 11. Реализовать операторы == и !=
-//////////////////////////////////////////////////////////////////////////
-BOOST_AUTO_TEST_CASE(could_be_compared_by_equal)
-{
-	BOOST_CHECK(CRational(1, 2) == CRational(1, 2));
-	BOOST_CHECK(CRational(4, 1) == CRational(4));
-	BOOST_CHECK(CRational(3) == CRational(3, 1));
-	BOOST_CHECK(CRational(1, 2) != CRational(2, 3));
-	BOOST_CHECK(CRational(1, 2) != CRational(7));
-	BOOST_CHECK(CRational(3) != CRational(2, 3));
-}
-//////////////////////////////////////////////////////////////////////////
-// TODO: 12. Реализовать операторы <, >, <=, >=
-// Сравнивают два рациональных числа, рациональное с целым, 
-//	целое с рациональным:
-//	(1/2) >= (1/3) → true
-//	(1/2) <= (1/3) → false
-//	(3/1) > 2      → true
-//	(1/2) < 7      → true
-//	3 <= (7/2)     → true
-//	3 >= (8/2)     → false
-//////////////////////////////////////////////////////////////////////////
-BOOST_AUTO_TEST_CASE(can_be_comparison_with_another_number)
-{
-	BOOST_CHECK(CRational(1, 2) >= CRational(1, 3));
-	BOOST_CHECK(!(CRational(1, 2) <= CRational(1, 3)));
-	BOOST_CHECK(CRational(3, 1) > CRational(2));
-	BOOST_CHECK(CRational(1, 2) < CRational(7));
-	BOOST_CHECK(CRational(3) <= CRational(7, 2));
-	BOOST_CHECK(!(CRational(3) >= CRational(8, 2)));
-}
+	BOOST_FIXTURE_TEST_SUITE(binary_subtraction, binary_subtraction_)
 
-//////////////////////////////////////////////////////////////////////////
-// TODO: 13. Реализовать оператор вывода рационального числа в выходной поток 
-//	std::ostream в формате <числитель>/<знаменатель>, 
-//	например: 7/15
-//////////////////////////////////////////////////////////////////////////
+		BOOST_AUTO_TEST_CASE(subtraction_of_two_floating_point_integers)
+		{
+			auto answer = rational - CRational(3, 8);
+			VerifyRational(answer, 1, 8);
+		}
 
-struct ostreamOperatorFixture
-{
-	CRational rational = CRational(7, 15);
-};
+		BOOST_AUTO_TEST_CASE(subtraction_of_fractional_and_rational_integers)
+		{
+			auto answer = rational - 1;
+			VerifyRational(answer, -1, 2);
+		}
 
-BOOST_FIXTURE_TEST_SUITE(ostream_operator, ostreamOperatorFixture)
+		BOOST_AUTO_TEST_CASE(subtraction_of_rational_and_fractional_integers)
+		{
+			auto answer = 1 - rational;
+			VerifyRational(answer, 1, 2);
+		}
 
-BOOST_AUTO_TEST_CASE(rational_integer_to_ostream)
-{
-	std::ostringstream strm;
-	strm << rational;
-	BOOST_CHECK_EQUAL(strm.str(), "7/15");
-}
-BOOST_AUTO_TEST_SUITE_END()
+	BOOST_AUTO_TEST_SUITE_END()
+	//
+	
+	// 4) +=
+	struct addition_
+	{
+		CRational rational = CRational(1, 2);
+	};
 
-//////////////////////////////////////////////////////////////////////////
-// TODO: 14. Реализовать оператор ввода рационального числа из входного потока 
-//	std::istream в формате <числитель>/<знаменатель>, 
-//	например: 7/15
-//////////////////////////////////////////////////////////////////////////
+	BOOST_FIXTURE_TEST_SUITE(addition, addition_)
 
-struct istreamOperatorFixture
-{
-	CRational rational;
-};
+		BOOST_AUTO_TEST_CASE(addition_floating_point_integer)
+		{
+			rational += CRational(1, 6);
+			VerifyRational(rational, 2, 3);
+		}
 
-BOOST_FIXTURE_TEST_SUITE(istream_operator, istreamOperatorFixture)
+		BOOST_AUTO_TEST_CASE(addition_integer)
+		{
+			rational += 1;
+			VerifyRational(rational, 3, 2);
+		}
 
-BOOST_AUTO_TEST_CASE(rational_integer_in_istream)
-{
-	std::istringstream strm("7/15");
-	strm >> rational;
-	VerifyRational(rational, 7, 15);
-}
+	BOOST_AUTO_TEST_SUITE_END()
+	//
 
-BOOST_AUTO_TEST_CASE(negative_rational_integer_in_istream)
-{
-	std::istringstream strm("-7/15");
-	strm >> rational;
-	VerifyRational(rational, -7, 15);
-}
-BOOST_AUTO_TEST_SUITE_END()
+	// 5) -=
+	struct subtraction_
+	{
+		CRational rational = CRational(1, 2);
+	};
+
+	BOOST_FIXTURE_TEST_SUITE(subtraction, subtraction_)
+
+		BOOST_AUTO_TEST_CASE(subtraction_floating_point_integer)
+		{
+			rational -= CRational(1, 6);
+			VerifyRational(rational, 1, 3);
+		}
+
+		BOOST_AUTO_TEST_CASE(subtraction_integer)
+		{
+			rational -= 1;
+			VerifyRational(rational, -1, 2);
+		}
+
+	BOOST_AUTO_TEST_SUITE_END()
+	//
+
+	// 6) *
+	struct bi_multiplication_
+	{
+		CRational rational = CRational(1, 2);
+	};
+
+	BOOST_FIXTURE_TEST_SUITE(bi_multiplication, bi_multiplication_)
+
+		BOOST_AUTO_TEST_CASE(bi_multiplication_rational_integers)
+		{
+			auto answer = rational * CRational(2, 3);
+			VerifyRational(answer, 1, 3);
+		}
+
+		BOOST_AUTO_TEST_CASE(bi_multiplication_rational_and_integer)
+		{
+			auto answer = rational * CRational(-3);
+			VerifyRational(answer, -3, 2);
+		}
+
+		BOOST_AUTO_TEST_CASE(bi_multiplication_integer_and_rational)
+		{
+			auto answer = CRational(20) * rational;
+			VerifyRational(answer, 10, 1);
+		}
+
+	BOOST_AUTO_TEST_SUITE_END()
+	//
+
+	// 7) /
+	struct bi_division_
+	{
+		CRational rational = CRational(1, 2);
+	};
+
+	BOOST_FIXTURE_TEST_SUITE(bi_division, bi_division_)
+
+		BOOST_AUTO_TEST_CASE(bi_division_rational_integers)
+		{
+			auto answer = rational / CRational(2, 3);
+			VerifyRational(answer, 3, 4);
+		}
+
+		BOOST_AUTO_TEST_CASE(bi_division_rational_and_integer)
+		{
+			auto answer = rational / CRational(5);
+			VerifyRational(answer, 1, 10);
+		}
+
+		BOOST_AUTO_TEST_CASE(bi_division_integer_and_rational)
+		{
+			auto answer = CRational(7) / rational;
+			VerifyRational(answer, 14, 1);
+		}
+
+		BOOST_AUTO_TEST_CASE(can_not_bi_divide_rational_and_zero)
+		{
+			BOOST_REQUIRE_THROW(auto answer = rational / CRational(0), std::invalid_argument::exception);
+
+			BOOST_REQUIRE_THROW(auto answer = rational / CRational(0, 1), std::invalid_argument::exception);
+		}
+
+
+
+	BOOST_AUTO_TEST_SUITE_END()
+	//
+
+	// 8) *=
+	struct multiplication_
+	{
+		CRational rational = CRational(1, 2);
+	};
+
+	BOOST_FIXTURE_TEST_SUITE(multiplication, multiplication_)
+
+		BOOST_AUTO_TEST_CASE(multiplication_floating_point_integer)
+		{
+			rational *= CRational(2, 3);
+			VerifyRational(rational, 1, 3);
+		}
+
+		BOOST_AUTO_TEST_CASE(multiplication_integer)
+		{
+			rational *= 3;
+			VerifyRational(rational, 3, 2);
+		}
+
+	BOOST_AUTO_TEST_SUITE_END()
+	//
+
+	// 9) /=
+	struct division_
+	{
+		CRational rational = CRational(1, 2);
+	};
+
+	BOOST_FIXTURE_TEST_SUITE(division, division_)
+
+		BOOST_AUTO_TEST_CASE(division_floating_point_integer)
+		{
+			rational /= CRational(2, 3);
+			VerifyRational(rational, 3, 4);
+		}
+
+		BOOST_AUTO_TEST_CASE(division_integer)
+		{
+			rational /= 3;
+			VerifyRational(rational, 1, 6);
+		}
+
+		BOOST_AUTO_TEST_CASE(can_not_divide_rational_and_zero)
+		{
+			BOOST_REQUIRE_THROW(rational /= CRational(0), std::invalid_argument);
+		}
+
+	BOOST_AUTO_TEST_SUITE_END()
+	//
+
+	// 10) == and !=
+	struct equality_
+	{
+		CRational rational = CRational(1, 2);
+	};
+
+	BOOST_FIXTURE_TEST_SUITE(equality, equality_)
+
+		BOOST_AUTO_TEST_CASE(equality_rational_integers)
+		{
+			BOOST_CHECK(rational == CRational(1, 2));
+
+			BOOST_CHECK(!(rational == CRational(2, 3)));
+		}
+
+		BOOST_AUTO_TEST_CASE(equality_rational_and_integer)
+		{
+			BOOST_CHECK(!(rational == CRational(7)));
+		}
+
+		BOOST_AUTO_TEST_CASE(equality_integer_and_rational)
+		{
+			BOOST_CHECK(CRational(3) == CRational(3, 1));
+		}
+
+		BOOST_AUTO_TEST_CASE(equality_two_integers)
+		{
+			BOOST_CHECK(CRational(4, 1) == CRational(4));
+		}
+
+	BOOST_AUTO_TEST_SUITE_END()
+
+	struct inequality_
+	{
+		CRational rational = CRational(1, 2);
+	};
+
+	BOOST_FIXTURE_TEST_SUITE(inequality, inequality_)
+
+		BOOST_AUTO_TEST_CASE(inequality_rational_integers)
+		{
+			BOOST_CHECK(!(rational != CRational(1, 2)));
+
+			BOOST_CHECK(rational != CRational(2, 3));
+		}
+
+		BOOST_AUTO_TEST_CASE(inequality_rational_and_integer)
+		{
+			BOOST_CHECK(rational != CRational(7));
+		}
+
+		BOOST_AUTO_TEST_CASE(inequality_integer_and_rational)
+		{
+			BOOST_CHECK(!(CRational(3) != CRational(3, 1)));
+		}
+
+		BOOST_AUTO_TEST_CASE(inequality_two_integers)
+		{
+			BOOST_CHECK(!(CRational(4, 1) != CRational(4)));
+		}
+
+	BOOST_AUTO_TEST_SUITE_END()
+	//
+
+	// 11) <, <=, >, >=
+	struct less_
+	{
+		CRational rational = CRational(1, 2);
+	};
+
+	BOOST_FIXTURE_TEST_SUITE(less, less_)
+
+		BOOST_AUTO_TEST_CASE(less_rational_integers)
+		{
+			BOOST_CHECK(!(rational < CRational(1, 2)));
+
+			BOOST_CHECK(!(CRational(2, 3) < rational));
+		}
+
+		BOOST_AUTO_TEST_CASE(less_rational_and_integer)
+		{
+			BOOST_CHECK(rational < CRational(7));
+		}
+
+		BOOST_AUTO_TEST_CASE(less_integer_and_rational)
+		{
+			BOOST_CHECK(!(CRational(3) < CRational(3, 1)));
+		}
+
+		BOOST_AUTO_TEST_CASE(less_two_integers)
+		{
+			BOOST_CHECK(!(CRational(4, 1) < CRational(4)));
+		}
+
+	BOOST_AUTO_TEST_SUITE_END()
+
+	struct less_or_equality_
+	{
+		CRational rational = CRational(1, 2);
+	};
+
+	BOOST_FIXTURE_TEST_SUITE(less_or_equality, less_or_equality_)
+
+		BOOST_AUTO_TEST_CASE(less_or_equality_rational_integers)
+		{
+			BOOST_CHECK((rational <= CRational(1, 2)));
+
+			BOOST_CHECK(!(CRational(2, 3) <= rational));
+		}
+
+		BOOST_AUTO_TEST_CASE(less_or_equality_rational_and_integer)
+		{
+			BOOST_CHECK(rational <= CRational(7));
+		}
+
+		BOOST_AUTO_TEST_CASE(less_or_equality_integer_and_rational)
+		{
+			BOOST_CHECK(CRational(3) <= CRational(3, 1));
+		}
+
+		BOOST_AUTO_TEST_CASE(less_or_equality_two_integers)
+		{
+			BOOST_CHECK(CRational(4, 1) <= CRational(4));
+		}
+
+	BOOST_AUTO_TEST_SUITE_END()
+
+	struct larger_
+	{
+		CRational rational = CRational(1, 2);
+	};
+	BOOST_FIXTURE_TEST_SUITE(larger, larger_)
+
+		BOOST_AUTO_TEST_CASE(larger_rational_integers)
+		{
+			BOOST_CHECK(!(rational > CRational(1, 2)));
+
+			BOOST_CHECK((CRational(2, 3) > rational));
+		}
+
+		BOOST_AUTO_TEST_CASE(larger_rational_and_integer)
+		{
+			BOOST_CHECK(!(rational > CRational(7)));
+		}
+
+		BOOST_AUTO_TEST_CASE(larger_integer_and_rational)
+		{
+			BOOST_CHECK(!(CRational(3) > CRational(3, 1)));
+		}
+
+		BOOST_AUTO_TEST_CASE(larger_two_integers)
+		{
+			BOOST_CHECK(!(CRational(4, 1) > CRational(4)));
+		}
+
+	BOOST_AUTO_TEST_SUITE_END()
+	
+	struct larger_or_equality_
+	{
+		CRational rational = CRational(1, 2);
+	};
+
+	BOOST_FIXTURE_TEST_SUITE(larger_or_equality, larger_or_equality_)
+
+		BOOST_AUTO_TEST_CASE(larger_or_equality_rational_integers)
+		{
+			BOOST_CHECK((rational >= CRational(1, 2)));
+
+			BOOST_CHECK((CRational(2, 3) >= rational));
+		}
+
+		BOOST_AUTO_TEST_CASE(larger_or_equality_rational_and_integer)
+		{
+			BOOST_CHECK(!(rational >= CRational(7)));
+		}
+
+		BOOST_AUTO_TEST_CASE(larger_or_equality_integer_and_rational)
+		{
+			BOOST_CHECK(CRational(3) >= CRational(3, 1));
+		}
+
+		BOOST_AUTO_TEST_CASE(larger_or_equality_two_integers)
+		{
+			BOOST_CHECK(CRational(4, 1) >= CRational(4));
+		}
+
+	BOOST_AUTO_TEST_SUITE_END()
+	//
+
+	// 12) ostream <<
+	struct ostream_
+	{
+		CRational rational = CRational(1, 2);
+	};
+
+	BOOST_FIXTURE_TEST_SUITE(ostream, ostream_)
+
+		BOOST_AUTO_TEST_CASE(rational_integer_to_ostream)
+		{
+			std::ostringstream strm;
+			strm << rational;
+			BOOST_CHECK_EQUAL(strm.str(), "1/2");
+		}
+
+	BOOST_AUTO_TEST_SUITE_END()
+
+	// 13) istream <<
+	struct istream_
+	{
+		CRational rational;
+	};
+
+	BOOST_FIXTURE_TEST_SUITE(istream, istream_)
+
+		BOOST_AUTO_TEST_CASE(rational_integer_in_istream)
+		{
+			std::istringstream strm("1/2");
+			strm >> rational;
+			VerifyRational(rational, 1, 2);
+		}
+		
+		BOOST_AUTO_TEST_CASE(negative_rational_integer_in_istream)
+		{
+			std::istringstream strm("-1/2");
+			strm >> rational;
+			VerifyRational(rational, -1, 2);
+		}
+
+	BOOST_AUTO_TEST_SUITE_END()
+	//
+
+	//ADDITION TASK TESTS;
+	BOOST_AUTO_TEST_CASE(can_get_compound_fraction)
+	{
+		auto rational = CRational(9, 4);
+		VerifyCompoundFraction(rational, 2, 1, 4);
+	}
+
+	BOOST_AUTO_TEST_CASE(can_get_compound_negative_fraction)
+	{
+		auto rational = CRational(-9, 4);
+		VerifyCompoundFraction(rational, -2, -1, 4);
+	}
+
+	BOOST_AUTO_TEST_CASE(integer_will_return_to_previous_state)
+	{
+		auto rational = CRational(-9);
+		VerifyCompoundFraction(rational, -9, 0, 1);
+	}
+
+	BOOST_AUTO_TEST_CASE(if_fraction_is_less_than_zero_then_integer_equal_to_zero)
+	{
+		auto rational = CRational(1, 2);
+		VerifyCompoundFraction(rational, 0, 1, 2);
+	}
 
 BOOST_AUTO_TEST_SUITE_END()

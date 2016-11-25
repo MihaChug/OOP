@@ -1,5 +1,6 @@
-// RationalTests.cpp: определяет точку входа для консольного приложения.
+// bodies_tests.cpp : Defines the entry point for the console application.
 //
+
 #include "stdafx.h"
 #include <boost/algorithm/string/replace.hpp>
 #include <boost/test/output/compiler_log_formatter.hpp>
@@ -24,7 +25,7 @@ class SpecLogFormatter :
 		m_indent += 2;
 	}
 
-
+	
 
 	virtual void test_unit_finish(ostream & /*os*/, boost::unit_test::test_unit const& /*tu*/, unsigned long /*elapsed*/) override
 	{

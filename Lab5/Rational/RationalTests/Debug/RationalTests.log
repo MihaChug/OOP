@@ -1,0 +1,89 @@
+﻿  stdafx.cpp
+  RationalTests.cpp
+  main.cpp
+  Rational.cpp
+  Создание кода...
+  RationalTests.vcxproj -> C:\Users\mihac\OneDrive\Документы\Visual Studio 2015\Projects\Rational\Debug\RationalTests.exe
+  RationalTests.vcxproj -> C:\Users\mihac\OneDrive\Документы\Visual Studio 2015\Projects\Rational\Debug\RationalTests.pdb (Full PDB)
+  Running 61 test cases...
+  All tests
+    Test Greates Common Denominator
+    Rational number
+      is 0 by default
+      can be constructed from integer
+      can be constructed with numerator and denominator
+      is normalized after construction
+      cant have zero denominator
+      unary minus returns rational integer with opposite sign
+      unary plus returns rational integer equal to current
+      binary addition
+        addition of two floating point integers
+        addition of fractional and integer
+        addition of rational and fractional integerss
+      binary subtraction
+        subtraction of two floating point integers
+        subtraction of fractional and rational integers
+        subtraction of rational and fractional integers
+      addition
+        addition floating point integer
+        addition integer
+      subtraction
+        subtraction floating point integer
+        subtraction integer
+      bi multiplication
+        bi multiplication rational integers
+        bi multiplication rational and integer
+        bi multiplication integer and rational
+      bi division
+        bi division rational integers
+        bi division rational and integer
+        bi division integer and rational
+        can not bi divide rational and zero
+      multiplication
+        multiplication floating point integer
+        multiplication integer
+      division
+        division floating point integer
+        division integer
+        can not divide rational and zero
+      equality
+        equality rational integers
+        equality rational and integer
+        equality integer and rational
+        equality two integers
+      inequality
+        inequality rational integers
+        inequality rational and integer
+        inequality integer and rational
+        inequality two integers
+      less
+        less rational integers
+        less rational and integer
+        less integer and rational
+        less two integers
+      less or equality
+        less or equality rational integers
+        less or equality rational and integer
+        less or equality integer and rational
+        less or equality two integers
+      larger
+        larger rational integers
+        larger rational and integer
+        larger integer and rational
+        larger two integers
+      larger or equality
+        larger or equality rational integers
+        larger or equality rational and integer
+        larger or equality integer and rational
+        larger or equality two integers
+      ostream
+        rational integer to ostream
+      istream
+        rational integer in istream
+        negative rational integer in istream
+      can get compound fraction
+      can get compound negative fraction
+      integer will return to previous state
+      if fraction is less than zero then integer equal to zero
+  
+  *** No errors detected
