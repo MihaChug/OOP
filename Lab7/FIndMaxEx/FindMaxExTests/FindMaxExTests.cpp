@@ -10,9 +10,9 @@ BOOST_AUTO_TEST_SUITE(FindMax_Tests)
 	struct SportMansVector
 	{
 		std::vector<std::shared_ptr<SportsMan>> sportsmansVector = {
-			std::make_shared<SportsMan>("Filipp", "Azisovich", "Kirkorov", 216.5, 50.3),
-			std::make_shared<SportsMan>("Baskov", "Djigurhanyanov", "Nikolay", 100.5, 21.5),
-			std::make_shared<SportsMan>("Albert", "Shamilevich", "Djigarhanyan", 167, 214)
+			std::make_shared<SportsMan>("Smirnov", "Sergeevich", "Evgeniy", 216.5, 50.3),
+			std::make_shared<SportsMan>("Ribakov", "Nikolaevich", "Alexander", 100.5, 21.5),
+			std::make_shared<SportsMan>("Knyazev", "Mikhailovich", "Sergey", 167, 214)
 		};
 	};
 	BOOST_FIXTURE_TEST_SUITE(find_max_paramathers_in_sportmans_vector, SportMansVector)
