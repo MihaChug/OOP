@@ -1,0 +1,24 @@
+Test1 
+...OK 
+Test2 
+...OK 
+Test3 
+ERROR: Too many arguments.
+       Run program on the commmand line with param-s:
+       replace.exe inputFile outputFile searchString replaceString
+Good luck. :)
+...OK 
+Test4 
+...OK 
+Test5 
+ERROR: Not enough arguments for the program.
+       Run program on the commmand line with param-s:
+       replace.exe inputFile outputFile searchString replaceString
+Good luck. :)
+...OK 
+Test6 
+ERROR: Too many arguments.
+       Run program on the commmand line with param-s:
+       replace.exe inputFile outputFile searchString replaceString
+Good luck. :)
+...OK 
